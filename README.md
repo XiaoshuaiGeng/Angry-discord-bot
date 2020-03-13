@@ -1,2 +1,2 @@
 # discord-bot
- a simple discord bot for the server
+A simple discord bot for the server
