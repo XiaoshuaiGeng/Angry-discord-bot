@@ -1,8 +1,8 @@
+const fs = require('fs');
 const Discord = require('discord.js');
 const {prefix, token} = require('./config.json');
 const client = new Discord.Client();
-var https = require('https');
-var http = require('http');
+client.commands = new Discord.Collection();
 
 
 
@@ -50,7 +50,7 @@ client.on('message', message => {
         }else{
             var i;
             for(i = 0; i < 5; i++){
-                message.channel.send(`${taggedUser} 给你妈一个一星差评`);
+                message.channel.send(`${message.mentions.users.map(user => {return user})} 给你妈一个一星差评`);
     
             }
         }   
