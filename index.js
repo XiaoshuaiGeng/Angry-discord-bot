@@ -10,19 +10,19 @@ client.commands = new Discord.Collection();
 client.on('message', message => {
     if(!message.content.startsWith(prefix) || message.author.bot) return;
 
-    const args = message.content.slice(prefix.length).split(/ +/);
+    const args = message.content.slice(prefix.length).split(/ +/)
 
-    const command = args.shift().toLowerCase();
+    const command = args.shift().toLowerCase()
 
     if(command === '别骂了'){
-        message.channel.bulkDelete(10,true);
+        message.channel.bulkDelete(10,true)
         //delete last 10 messages
 
     }
 
     if(command === '瞅瞅'){
         if(!message.mentions.users.size){
-            return message.reply('你瞅你妈呢？');
+            return message.reply('你瞅你妈呢？')
         }
 
         //message.channel.send(``)
@@ -30,7 +30,7 @@ client.on('message', message => {
 
     if(command === 'kick'){
         if(!message.mentions.users.size){
-            return message.reply('你踢人咋还不写名啊？');
+            return message.reply('你踢人咋还不写名啊？')
         }
     }
 
@@ -41,18 +41,17 @@ client.on('message', message => {
         
         
         if(args.length > message.mentions.users.size){
-            var i;
-            for(i = 0; i < 5; i++){
-                message.channel.send(`${message.mentions.users.map(user => {return user})} ${args[args.length - 1]}`);
-    
+            let sentence='';
+            for(let i = 0; i < 20; i++){
+                sentence += `${message.mentions.users.map(user => {return user})} ${args[args.length - 1]}` + '\n';
             }
-
+            message.channel.send(sentence)
         }else{
-            var i;
-            for(i = 0; i < 5; i++){
-                message.channel.send(`${message.mentions.users.map(user => {return user})} 给你妈一个一星差评`);
-    
+            let sentence='';
+            for(i = 0; i < 20; i++){
+                sentence += `${message.mentions.users.map(user => {return user})} ${args[args.length - 1]}` +'\n';
             }
+            message.channel.send(sentence)
         }   
     }
 
@@ -65,4 +64,4 @@ client.on('message', message => {
 
 })
 
-client.login(token);
+client.login(token)
