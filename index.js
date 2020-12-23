@@ -12,27 +12,25 @@ client.on('message', message => {
 
 	const command = args.shift().toLowerCase();
 
-	if(command === '别骂了') {
+	switch(command) {
+
+	case '别骂了':
 		message.channel.bulkDelete(10, true);
-		// delete last 10 messages
+		break;
 
-	}
-
-	if(command === '瞅瞅') {
+	case '瞅瞅':
 		if(!message.mentions.users.size) {
 			return message.reply('你瞅你妈呢？');
 		}
+		break;
 
-		// message.channel.send(``)
-	}
-
-	if(command === 'kick') {
+	case 'kick':
 		if(!message.mentions.users.size) {
 			return message.reply('你踢人咋还不写名啊？');
 		}
-	}
+		break;
 
-	if(command === '骂') {
+	case '骂':
 		if(!message.mentions.users.size) {
 			return message.reply('骂人记得@他');
 		}
@@ -51,6 +49,8 @@ client.on('message', message => {
 			}
 			message.channel.send(sentence);
 		}
+		break;
+	default:
 	}
 
 	// message.channel.send(args[0]);
