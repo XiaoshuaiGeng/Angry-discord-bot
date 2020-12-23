@@ -15,7 +15,7 @@ client.on('message', message => {
 	switch(command) {
 
 	case '别骂了':
-		message.channel.bulkDelete(10, true);
+		message.channel.bulkDelete(2, true);
 		break;
 
 	case '瞅瞅':
@@ -37,20 +37,21 @@ client.on('message', message => {
 
 		if(args.length > message.mentions.users.size) {
 			let sentence = '';
-			for(let i = 0; i < 20; i++) {
+			for(let i = 0; i < 5; i++) {
 				sentence += `${message.mentions.users.map(user => {return user; })} ${args[args.length - 1]}` + '\n';
 			}
 			message.channel.send(sentence);
 		}
 		else {
 			let sentence = '';
-			for(let i = 0; i < 20; i++) {
-				sentence += `${message.mentions.users.map(user => {return user;})} jie'liuzi` + '\n';
+			for(let i = 0; i < 5; i++) {
+				sentence += `${message.mentions.users.map(user => {return user;})} 街溜子` + '\n';
 			}
 			message.channel.send(sentence);
 		}
 		break;
 	case '搁哪呢':
+		console.log(client.user);
 		message.reply(`我在这个叫"${message.channel.name}"的撤硕蹲着呢`);
 		break;
 	default:
