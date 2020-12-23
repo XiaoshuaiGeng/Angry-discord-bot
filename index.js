@@ -20,7 +20,7 @@ client.on('message', message => {
 
 	case '瞅瞅':
 		if(!message.mentions.users.size) {
-			return message.reply('你瞅你妈呢？');
+			return message.reply('别瞅了 饭都凉了');
 		}
 		break;
 
@@ -45,10 +45,13 @@ client.on('message', message => {
 		else {
 			let sentence = '';
 			for(let i = 0; i < 20; i++) {
-				sentence += `${message.mentions.users.map(user => {return user;})} ${args[args.length - 1]}` + '\n';
+				sentence += `${message.mentions.users.map(user => {return user;})} jie'liuzi` + '\n';
 			}
 			message.channel.send(sentence);
 		}
+		break;
+	case '搁哪呢':
+		message.reply(`我在这个叫"${message.channel.name}"的撤硕蹲着呢`);
 		break;
 	default:
 	}
