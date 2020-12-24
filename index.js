@@ -1,9 +1,17 @@
-// const fs = require('fs');
+const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.name, command);
+}
+
+console.log(client.commands);
 
 client.on('message', message => {
 	if(!message.content.startsWith(prefix) || message.author.bot) return;
@@ -15,13 +23,11 @@ client.on('message', message => {
 	switch(command) {
 
 	case '别骂了':
-		message.channel.bulkDelete(2, true);
+		client.commands.get('别骂了').execute(message);
 		break;
 
 	case '瞅瞅':
-		if(!message.mentions.users.size) {
-			return message.reply('别瞅了 饭都凉了');
-		}
+		client.commands.get('瞅瞅').execute(message, args);
 		break;
 
 	case 'kick':
