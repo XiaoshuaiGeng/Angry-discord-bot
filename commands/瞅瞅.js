@@ -1,5 +1,3 @@
-const { DiscordAPIError } = require("discord.js");
-
 module.exports = {
 	name: '瞅瞅',
 	description:'show current channel name',
