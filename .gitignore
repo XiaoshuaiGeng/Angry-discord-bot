@@ -2,3 +2,5 @@ config.json
 .eslintrc.json
 .vscode/
 discord-bot
+.env
+node_modules
