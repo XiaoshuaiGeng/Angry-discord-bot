@@ -1,61 +1,88 @@
-require('dotenv').config();
-const fs = require('fs');
-const Discord = require('discord.js');
-// const { prefix, token } = require('./config.json');
-const prefix = process.env.PREFIX;
-const token = process.env.BOT_TOKEN;
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
+const dotenv = require('dotenv')
+const { Client, Intents, Collection } = require('discord.js')
+const fs = require('fs')
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+dotenv.config()
+
+// discord bot now does not need a prefix
+// const prefix = process.env.PREFIX
+const token = process.env.BOT_TOKEN
+const client = new Client(
+  {
+    intents: [
+      Intents.FLAGS.GUILDS,
+      Intents.FLAGS.GUILD_MESSAGES
+    ]
+  }
+)
+client.commands = new Collection()
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
+  const command = require(`./commands/${file}`)
+  // Set a new item in the Collection
+  // With the key as the command name and the value as the exported module
+  client.commands.set(command.data.name, command)
 }
 
-console.log(client.commands);
+client.once('ready', () => {
+  console.log('Bot Ready')
+})
 
-client.on('message', message => {
-	if(!message.content.startsWith(prefix) || message.author.bot) return;
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isCommand()) return
 
-	const args = message.content.slice(prefix.length).split(/ +/);
+  const command = client.commands.get(interaction.commandName)
 
-	const command = args.shift().toLowerCase();
+  if (!command) return
 
-	switch(command) {
+  try {
+    await command.execute(interaction)
+  } catch (error) {
+    console.error(error)
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })
+  }
+})
 
-	case '别骂了':
-		client.commands.get('别骂了').execute(message);
-		break;
+// client.on('message', message => {
+//   if (!message.content.startsWith(prefix) || message.author.bot) return
 
-	case '瞅瞅':
-		client.commands.get('瞅瞅').execute(message, args);
-		break;
+//   const args = message.content.slice(prefix.length).split(/ +/)
 
-	case 'kick':
-		if(!message.mentions.users.size) {
-			return message.reply('你踢人咋还不写名啊？');
-		}
-		break;
+//   const command = args.shift().toLowerCase()
 
-	case '骂':
-		client.commands.get('骂').execute(message,args);
-		break;
-	case '搁哪呢':
-		console.log(client.user);
-		message.reply(`我在这个叫"${message.channel.name}"的撤硕蹲着呢`);
-		break;
-	default:
-	}
+//   switch (command) {
+//     case '别骂了':
+//       client.commands.get('别骂了').execute(message)
+//       break
 
-	// message.channel.send(args[0]);
+//     case '瞅瞅':
+//       client.commands.get('瞅瞅').execute(message, args)
+//       break
 
-	// @test if there is any arguments
-	// if(!args.length){
-	//     return message.channel.send(`No arguments`);
-	// }
+//     case 'kick':
+//       if (!message.mentions.users.size) {
+//         return message.reply('你踢人咋还不写名啊？')
+//       }
+//       break
 
-});
+//     case '骂':
+//       client.commands.get('骂').execute(message, args)
+//       break
+//     case '搁哪呢':
+//       console.log(client.user)
+//       message.reply(`我在这个叫"${message.channel.name}"的撤硕蹲着呢`)
+//       break
+//     default:
+//   }
 
-client.login(token);
+// message.channel.send(args[0]);
+
+// @test if there is any arguments
+// if(!args.length){
+//     return message.channel.send(`No arguments`);
+// }
+// })
+
+client.login(token)

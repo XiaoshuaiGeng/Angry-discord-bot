@@ -4,3 +4,4 @@ config.json
 discord-bot
 .env
 node_modules
+.DS_Store
